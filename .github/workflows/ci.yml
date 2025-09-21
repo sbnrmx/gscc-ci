@@ -1,25 +1,36 @@
-- name: Checkout SVN code
-  run: |
-    sudo apt-get update
-    sudo apt-get install -y subversion
-    svn --version
-    svn checkout \
-      --non-interactive \
-      --no-auth-cache \
-      --trust-server-cert \
-      --trust-server-cert-failures=unknown-ca,cn-mismatch,expired,not-yet-valid,other \
-      --username "${{ secrets.SVN_USERNAME }}" \
-      --password "${{ secrets.SVN_PASSWORD }}" \
-      "${{ secrets.SVN_URL }}" GSCC
+name: CI Pipeline
 
-    - name: Show OpenSSL version
-      run: ./GSCC/opt/generalstorage/gscc/bin/openssl version
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:   # permite rulare manuală
 
-    - name: Show gsuid version
-      run: ./GSCC/opt/generalstorage/gscc/bin/gsuid -v
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout SVN code
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y subversion
+          svn --version
+          svn checkout \
+            --non-interactive \
+            --no-auth-cache \
+            --trust-server-cert \
+            --trust-server-cert-failures=unknown-ca,cn-mismatch,expired,not-yet-valid,other \
+            --username "${{ secrets.SVN_USERNAME }}" \
+            --password "${{ secrets.SVN_PASSWORD }}" \
+            "${{ secrets.SVN_URL }}" GSCC
 
-    - name: Show gsccd version
-      run: ./GSCC/opt/generalstorage/gscc/bin/gsccd -v
+      - name: Show OpenSSL version
+        run: ./GSCC/opt/generalstorage/gscc/bin/openssl version
 
-    - name: Show gscomd version
-      run: ./GSCC/opt/generalstorage/gscc/bin/gscomd -v
+      - name: Show gsuid version
+        run: ./GSCC/opt/generalstorage/gscc/bin/gsuid -v
+
+      - name: Show gsccd version
+        run: ./GSCC/opt/generalstorage/gscc/bin/gsccd -v
+
+      - name: Show gscomd version
+        run: ./GSCC/opt/generalstorage/gscc/bin/gscomd -v
