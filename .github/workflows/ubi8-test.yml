@@ -1,0 +1,17 @@
+name: UBI8 Test Workflow
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.access.redhat.com/ubi8/ubi:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python and Pytest
+        run: |
+          yum install -y python3 python3-pip
+          pip3 install pytest
+      - name: Run tests
+        run: pytest
