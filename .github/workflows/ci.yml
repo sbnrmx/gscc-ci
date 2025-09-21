@@ -24,13 +24,13 @@ jobs:
             "${{ secrets.SVN_URL }}" GSCC
 
       - name: Show OpenSSL version
-        run: ./GSCC/opt/generalstorage/gscc/bin/openssl version
+        run: ./GSCC/UNIX/opt/generalstorage/gscc/bin/openssl version
 
       - name: Show gsuid version
-        run: ./GSCC/opt/generalstorage/gscc/bin/gsuid -v
+        run: ./GSCC/UNIX/opt/generalstorage/gscc/bin/gsuid -v
 
       - name: Show gsccd version
-        run: ./GSCC/opt/generalstorage/gscc/bin/gsccd -v
+        run: ./GSCC/UNIX/opt/generalstorage/gscc/bin/gsccd -v
 
       - name: Show gscomd version
-        run: ./GSCC/opt/generalstorage/gscc/bin/gscomd -v
+        run: ./GSCC/UNIX/opt/generalstorage/gscc/bin/gscomd -v
