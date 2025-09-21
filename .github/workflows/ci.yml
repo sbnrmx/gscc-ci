@@ -1,25 +1,16 @@
-name: GSCC CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:   # permite rularea manuală din UI
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout SVN code
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y subversion
-        svn checkout --non-interactive --trust-server-cert \
-          --username "${{ secrets.SVN_USERNAME }}" \
-          --password "${{ secrets.SVN_PASSWORD }}" \
-          ${{ secrets.SVN_URL }} GSCC
+- name: Checkout SVN code
+  run: |
+    sudo apt-get update
+    sudo apt-get install -y subversion
+    svn --version
+    svn checkout \
+      --non-interactive \
+      --no-auth-cache \
+      --trust-server-cert \
+      --trust-server-cert-failures=unknown-ca,cn-mismatch,expired,not-yet-valid,other \
+      --username "${{ secrets.SVN_USERNAME }}" \
+      --password "${{ secrets.SVN_PASSWORD }}" \
+      "${{ secrets.SVN_URL }}" GSCC
 
     - name: Show OpenSSL version
       run: ./GSCC/opt/generalstorage/gscc/bin/openssl version
